@@ -76,7 +76,8 @@ adbShell() {
 
 echo "$(date +"%Y-%m-%d %T"): Looking for adb device"
 adb wait-for-device
-
+#avoid raceconds during boot
+sleep 15
 log "Device found, starting monitoring run"
 log "Run description is: $1"
 
@@ -92,6 +93,8 @@ do
         log "Restart #${restarts} detected"
         adb wait-for-device
         log "Device came back, resuming monitoring"
+        #racecond, have to wait for dji_blackbox to complete rotating logs
+        sleep 15
         startTails
     else
 	    sleep 1
